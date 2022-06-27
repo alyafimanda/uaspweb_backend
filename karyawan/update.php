@@ -24,6 +24,7 @@ $nama = $formData['nama'] ?? '';
 $jeniskelamin = $formData['jeniskelamin'] ?? '';
 $email = $formData['email'] ?? '';
 $nohp = $formData['nohp'] ?? 0;
+$idshift = $formData['idshift'] ?? '';
 
 /**
  * Validation empty fields
@@ -51,6 +52,10 @@ if(empty($email)){
 }
 if(empty($nohp)){
     $reply['error'] = 'No HP harus diisi';
+    $isValidated = false;
+}
+if(empty($idshift)){
+    $reply['error'] = 'ID Shift harus diisi';
     $isValidated = false;
 }
 /*
@@ -94,7 +99,7 @@ try{
  */
 try{
     $fields = [];
-    $query = "UPDATE barang SET password = :password, nama = :nama, jeniskelamin = :jeniskelamin, email = :email, nohp = :nohp 
+    $query = "UPDATE barang SET password = :password, nama = :nama, jeniskelamin = :jeniskelamin, email = :email, nohp = :nohp,  idshift = :idshift 
 WHERE idkaryawan = :idkaryawan";
     $statement = $connection->prepare($query);
     /**
@@ -106,6 +111,7 @@ WHERE idkaryawan = :idkaryawan";
     $statement->bindValue(":jeniskelamin", $jeniskelamin);
     $statement->bindValue(":email", $email);
     $statement->bindValue(":nohp", $nohp);
+    $statement->bindValue(":idshift", $idshift);
     /**
      * Execute query
      */
@@ -142,6 +148,7 @@ $dataFinal = [
     'jeniskelamin' => $dataKaryawan['jeniskelamin'],
     'email' => $dataKaryawan['email'],
     'nohp' => $dataKaryawan['nohp'],
+    'idshift' => $dataKaryawan['idshift'],
 ];
 
 

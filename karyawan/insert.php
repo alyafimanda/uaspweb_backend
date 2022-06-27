@@ -17,6 +17,7 @@ $nama = $_POST['nama'] ?? '';
 $jeniskelamin = $_POST['jeniskelamin'] ?? '';
 $email = $_POST['email'] ?? '';
 $nohp = $_POST['nohp'] ?? 0;
+$idshift = $_POST['idshift'] ?? '';
 
 /**
  * Validation empty fields
@@ -46,6 +47,10 @@ if(empty($nohp)){
     $reply['error'] = 'No HP harus diisi';
     $isValidated = false;
 }
+if(empty($idshift)){
+    $reply['error'] = 'ID Shift harus diisi';
+    $isValidated = false;
+}
 /*
  * Jika filter gagal
  */
@@ -60,8 +65,8 @@ if(!$isValidated){
  * Prepare query
  */
 try{
-    $query = "INSERT INTO karyawan (idkaryawan, password, nama, jeniskelamin, email, nohp) 
-                VALUES (:idkaryawan, :password, :nama, :jeniskelamin, :email, :nohp)";
+    $query = "INSERT INTO karyawan (idkaryawan, password, nama, jeniskelamin, email, nohp, idshift) 
+                VALUES (:idkaryawan, :password, :nama, :jeniskelamin, :email, :nohp, :idshift)";
     $statement = $connection->prepare($query);
     /**
      * Bind params
@@ -72,6 +77,7 @@ try{
     $statement->bindValue(":jeniskelamin", $jeniskelamin);
     $statement->bindValue(":email", $email);
     $statement->bindValue(":nohp", $nohp);
+    $statement->bindValue(":idshift", $idshift);
     /**
      * Execute query
      */
@@ -108,6 +114,7 @@ $dataFinal = [
     'jeniskelamin' => $result['jeniskelamin'],
     'email' => $result['email'],
     'nohp' => $result['nohp'],
+    'idshift' => $result['idshift'],
 ];
 
 /**

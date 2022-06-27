@@ -17,7 +17,7 @@ $merk = $_POST['merk'] ?? '';
 $jumlah = $_POST['jumlah'] ?? 0;
 $hargabarang = $_POST['hargabarang'] ?? '';
 $expiredate = $_POST['expiredate'] ?? date('Y-m-d');
-//$kategori = $_POST['kategori'] ?? 0;
+$idkaryawan = $_POST['idkaryawan'] ?? 0;
 
 /**
  * Validation int value
@@ -48,6 +48,14 @@ if(empty($hargabarang)){
     $reply['error'] = 'Harga barang harus diisi';
     $isValidated = false;
 }
+if(empty($hargabarang)){
+    $reply['error'] = 'Harga barang harus diisi';
+    $isValidated = false;
+}
+if(empty($idkaryawan)){
+    $reply['error'] = 'ID Karyawan harus diisi';
+    $isValidated = false;
+}
 /*
  * Jika filter gagal
  */
@@ -62,8 +70,8 @@ if(!$isValidated){
  * Prepare query
  */
 try{
-    $query = "INSERT INTO barang (idbarang, namabarang, merk, jumlah, hargabarang, expiredate) 
-                VALUES (:idbarang, :namabarang, :merk, :jumlah, :hargabarang, :expiredate)";
+    $query = "INSERT INTO barang (idbarang, namabarang, merk, jumlah, hargabarang, expiredate, idkaryawan) 
+                VALUES (:idbarang, :namabarang, :merk, :jumlah, :hargabarang, :expiredate, :idkaryawan)";
     $statement = $connection->prepare($query);
     /**
      * Bind params
@@ -74,6 +82,7 @@ try{
     $statement->bindValue(":jumlah", $jumlah, PDO::PARAM_INT);
     $statement->bindValue(":hargabarang", $hargabarang);
     $statement->bindValue(":expiredate", $expiredate);
+    $statement->bindValue(":idkaryawan", $idkaryawan);
     /**
      * Execute query
      */
@@ -110,6 +119,7 @@ $dataFinal = [
     'jumlah' => $result['jumlah'],
     'expiredate' => $result['expiredate'],
     'hargabarang' => $result['hargabarang'],
+    'idkaryawan' => $result['idkaryawan'],
 ];
 
 /**

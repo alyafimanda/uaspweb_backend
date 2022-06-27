@@ -24,6 +24,7 @@ $merk = $formData['merk'] ?? '';
 $jumlah = $formData['jumlah'] ?? 0;
 $hargabarang = $formData['hargabarang'] ?? '';
 $expiredate = $formData['expiredate'] ?? date('Y-m-d');
+$idkaryawan = $formData['idkaryawan'] ?? 0;
 
 /**
  * Validation int value
@@ -56,6 +57,10 @@ if(empty($merk)){
 }
 if(empty($expiredate)){
     $reply['error'] = 'Expire date harus diisi';
+    $isValidated = false;
+}
+if(empty($idkaryawan)){
+    $reply['error'] = 'ID Karyawan harus diisi';
     $isValidated = false;
 }
 /*
@@ -99,7 +104,7 @@ try{
  */
 try{
     $fields = [];
-    $query = "UPDATE barang SET namabarang = :namabarang, merk = :merk, jumlah = :jumlah, hargabarang = :hargabarang, expiredate = :expiredate 
+    $query = "UPDATE barang SET namabarang = :namabarang, merk = :merk, jumlah = :jumlah, hargabarang = :hargabarang, expiredate = :expiredate, idkaryawan = :idkaryawan 
 WHERE idbarang = :idbarang";
     $statement = $connection->prepare($query);
     /**
@@ -111,6 +116,7 @@ WHERE idbarang = :idbarang";
     $statement->bindValue(":jumlah", $jumlah, PDO::PARAM_INT);
     $statement->bindValue(":hargabarang", $hargabarang);
     $statement->bindValue(":expiredate", $expiredate);
+    $statement->bindValue(":idkaryawan", $idkaryawan);
     /**
      * Execute query
      */
@@ -147,6 +153,7 @@ $dataBarang = $stmSelect->fetch(PDO::FETCH_ASSOC);
         'jumlah' => $dataBarang['jumlah'],
         'hargabarang' => $dataBarang['hargabarang'],
         'expiredate' => $dataBarang['expiredate'],
+        'idkaryawan' => $dataBarang['idkaryawan'],
     ];
 
 
